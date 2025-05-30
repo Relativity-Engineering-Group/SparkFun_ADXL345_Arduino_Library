@@ -473,6 +473,21 @@ int ADXL345::getFreeFallDuration() {
 	return int (_b);
 }
 
+/************************ FIFO Register **************************/
+/*                          ~ SET & GET                             */
+// added by Murphy 20250514
+// disables FIFO to minimise reading latency
+void ADXL345::disableFIFO() {
+    writeTo(ADXL345_FIFO_CTL, 0x00); // Set FIFO_CTL to 0x00 (bypass mode)
+}
+
+bool ADXL345::isFIFODisabled() {
+	//returns true if fifo is disabled
+    byte fifoCtl;
+    readFrom(ADXL345_FIFO_CTL, 1, &fifoCtl); // Read the FIFO_CTL register
+    return ((fifoCtl & 0xC0) == 0x00);       // Check if D7:D6 == 00 (bypass mode)
+}
+
 /************************** ACTIVITY BITS ***************************/
 /*                                                                  */
 bool ADXL345::isActivityXEnabled() {

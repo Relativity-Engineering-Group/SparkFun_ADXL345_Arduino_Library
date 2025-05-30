@@ -218,6 +218,8 @@ public:
 	bool getJustifyBit();
 	void setJustifyBit(bool justifyBit);
 	void printAllRegister();
+	void disableFIFO();       // Function to disable FIFO
+	bool isFIFODisabled();    // Function to check if FIFO is disabled
 	
 private:
 	void writeTo(byte address, byte val);
