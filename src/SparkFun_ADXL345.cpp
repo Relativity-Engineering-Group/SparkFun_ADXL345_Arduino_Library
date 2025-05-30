@@ -21,7 +21,6 @@ Arduino Uno
 
 #include "Arduino.h"
 #include "SparkFun_ADXL345.h"
-#include <Wire.h>
 #include <SPI.h>
 
 #define ADXL345_DEVICE (0x53)    // Device Address for ADXL345
@@ -37,19 +36,16 @@ ADXL345::ADXL345() {
 	I2C = true;
 }
 
-ADXL345::ADXL345(int CS) {
+ADXL345::ADXL345(uint8_t deviceAddress, TwoWire &wirePort) {
 	status = ADXL345_OK;
 	error_code = ADXL345_NO_ERROR;
 
-	gains[0] = 0.00376390;
-	gains[1] = 0.00376009;
-	gains[2] = 0.00349265;
-	_CS = CS;
-	I2C = false;
-	SPI.begin();
-	SPI.setDataMode(SPI_MODE3);
-	pinMode(_CS, OUTPUT);
-	digitalWrite(_CS, HIGH);
+	gains[0] = 0.00376390;		// Original gain 0.00376390
+	gains[1] = 0.00376009;		// Original gain 0.00376009
+	gains[2] = 0.00349265;		// Original gain 0.00349265
+	_deviceAddress = deviceAddress;
+	_wirePort = &wirePort;
+	I2C = true;
 }
 
 void ADXL345::powerOn() {

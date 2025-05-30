@@ -17,6 +17,7 @@ Arduino Uno
 */
 
 #include "Arduino.h"
+#include<Wire.h>
 
 #ifndef ADXL345_h
 #define ADXL345_h
@@ -115,7 +116,7 @@ public:
 	double gains[3];				// Counts to Gs
 	
 	ADXL345();
-	ADXL345(int CS);
+	ADXL345(uint8_t deviceAddress,TwoWire &wirePort);
 	void powerOn();
 	void readAccel(int* xyx);
 	void readAccel(int* x, int* y, int* z);
@@ -231,6 +232,8 @@ private:
 	int _CS = 10;
 	bool I2C = true;
 	unsigned long SPIfreq = 5000000;
+	uint8_t _deviceAddress;
+	TwoWire *_wirePort;  // Pointer to a TwoWire object
 };
 void print_byte(byte val);
 #endif
